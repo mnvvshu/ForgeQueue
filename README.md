@@ -1,4 +1,16 @@
-# >_ ForgeQueue
+<p align="center">
+  <img src="assets/logo.jpg" alt="ForgeQueue" width="120" />
+</p>
+
+<h1 align="center">ForgeQueue</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/go-1.22+-00ADD8?style=flat&logo=go" alt="Go" />
+  <img src="https://img.shields.io/badge/next.js-14-000000?style=flat&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/postgres-16-4169E1?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/redis-streams-DC382D?style=flat&logo=redis&logoColor=white" alt="Redis" />
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat" alt="License" />
+</p>
 
 ForgeQueue is a distributed code execution engine built to run untrusted code safely across multiple languages. You submit code through a web UI or API, it gets queued, picked up by a worker, run inside a sandboxed Docker container, and the output streams back to your browser in real time.
 
