@@ -89,9 +89,9 @@ export default function DashboardPage() {
         <div className="glass-panel" style={{ padding: '1.25rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
             <span>Active / Running</span>
-            <Clock size={18} style={{ color: '#00d2ff' }} />
+            <Clock size={18} style={{ color: '#2563eb' }} />
           </div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, marginTop: '0.5rem', color: '#00d2ff' }}>
+          <div style={{ fontSize: '2rem', fontWeight: 700, marginTop: '0.5rem', color: '#2563eb' }}>
             {runningCount}
           </div>
         </div>
@@ -109,9 +109,9 @@ export default function DashboardPage() {
         <div className="glass-panel" style={{ padding: '1.25rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
             <span>Online Workers</span>
-            <Cpu size={18} style={{ color: '#a855f7' }} />
+            <Cpu size={18} style={{ color: '#7c3aed' }} />
           </div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, marginTop: '0.5rem', color: '#a855f7' }}>
+          <div style={{ fontSize: '2rem', fontWeight: 700, marginTop: '0.5rem', color: '#7c3aed' }}>
             {onlineWorkers} <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>/ {workers.length}</span>
           </div>
         </div>

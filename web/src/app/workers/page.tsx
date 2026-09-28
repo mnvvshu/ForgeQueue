@@ -72,7 +72,7 @@ export default function WorkersPage() {
 
         <div className="glass-panel" style={{ padding: '1rem 1.25rem' }}>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Active Slot Utilization</div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 700, color: totalActive > 0 ? '#fbbf24' : 'var(--text-muted)' }}>
+          <div style={{ fontSize: '1.75rem', fontWeight: 700, color: totalActive > 0 ? '#d97706' : 'var(--text-muted)' }}>
             {totalActive} <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>slots occupied</span>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function WorkersPage() {
                         </span>
                       </td>
                       <td style={{ fontSize: '0.85rem' }}>
-                        <span style={{ fontWeight: 600, color: w.active_jobs > 0 ? '#38bdf8' : 'var(--text-primary)' }}>
+                        <span style={{ fontWeight: 600, color: w.active_jobs > 0 ? '#2563eb' : 'var(--text-primary)' }}>
                           {w.active_jobs}
                         </span>
                         <span style={{ color: 'var(--text-muted)' }}> / {w.concurrency}</span>
@@ -134,11 +134,11 @@ export default function WorkersPage() {
                       <td style={{ fontSize: '0.85rem', color: 'var(--accent-green)' }}>
                         {w.completed_jobs}
                       </td>
-                      <td style={{ fontSize: '0.85rem', color: w.failed_jobs > 0 ? '#fb7185' : 'var(--text-muted)' }}>
+                      <td style={{ fontSize: '0.85rem', color: w.failed_jobs > 0 ? '#dc2626' : 'var(--text-muted)' }}>
                         {w.failed_jobs}
                       </td>
                       <td style={{ fontSize: '0.85rem' }}>
-                        <span style={{ color: w.seconds_since_heartbeat < 10 ? 'var(--text-primary)' : '#fbbf24' }}>
+                        <span style={{ color: w.seconds_since_heartbeat < 10 ? 'var(--text-primary)' : '#d97706' }}>
                           {Math.round(w.seconds_since_heartbeat)}s ago
                         </span>
                       </td>

@@ -141,7 +141,7 @@ export default function JobDetailPage() {
               </span>
               <span className={`badge badge-${status.toLowerCase()}`}>{status}</span>
               {truncated && (
-                <span className="badge" style={{ background: 'rgba(245, 158, 11, 0.2)', color: '#fbbf24' }}>
+                <span className="badge" style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a' }}>
                   <AlertTriangle size={12} /> Output Truncated
                 </span>
               )}
@@ -164,7 +164,7 @@ export default function JobDetailPage() {
                 className="btn-secondary"
                 onClick={handleCancel}
                 disabled={cancelling}
-                style={{ borderColor: 'var(--accent-rose)', color: '#fb7185' }}
+                style={{ borderColor: 'var(--accent-rose)', color: '#dc2626' }}
               >
                 <StopCircle size={16} />
                 <span>{cancelling ? 'Cancelling...' : 'Cancel Job'}</span>
@@ -237,7 +237,7 @@ export default function JobDetailPage() {
             ) : (
               <>
                 {stdout && <div style={{ color: '#e2e8f0' }}>{stdout}</div>}
-                {stderr && <div style={{ color: '#fb7185', marginTop: stdout ? '0.5rem' : 0 }}>{stderr}</div>}
+                {stderr && <div style={{ color: '#f87171', marginTop: stdout ? '0.5rem' : 0 }}>{stderr}</div>}
               </>
             )}
 
@@ -245,10 +245,10 @@ export default function JobDetailPage() {
               <div style={{
                 marginTop: '1rem',
                 padding: '0.5rem 0.75rem',
-                background: 'rgba(244, 63, 94, 0.15)',
-                border: '1px solid rgba(244, 63, 94, 0.3)',
+                background: '#fee2e2',
+                border: '1px solid #fecaca',
                 borderRadius: '4px',
-                color: '#fb7185',
+                color: '#991b1b',
                 fontSize: '0.8rem',
               }}>
                 <strong>Failure Details ({job.failure_category}):</strong> {job.failure_reason}
@@ -266,7 +266,7 @@ export default function JobDetailPage() {
             Submitted Source Code
           </div>
           <pre style={{
-            background: '#06090e',
+            background: '#f8f9fa',
             padding: '1.25rem',
             borderRadius: 'var(--radius-sm)',
             fontFamily: 'var(--font-mono)',
@@ -283,7 +283,7 @@ export default function JobDetailPage() {
                 Standard Input (stdin)
               </div>
               <pre style={{
-                background: '#06090e',
+                background: '#f8f9fa',
                 padding: '1rem',
                 borderRadius: 'var(--radius-sm)',
                 fontFamily: 'var(--font-mono)',
@@ -334,7 +334,7 @@ export default function JobDetailPage() {
                   </div>
 
                   {att.failure_reason && (
-                    <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#fb7185' }}>
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#dc2626' }}>
                       {att.failure_category}: {att.failure_reason}
                     </div>
                   )}

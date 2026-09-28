@@ -148,10 +148,10 @@ export default function NewJobPage() {
           alignItems: 'center',
           gap: '0.5rem',
           padding: '0.75rem 1rem',
-          background: 'rgba(244, 63, 94, 0.1)',
-          border: '1px solid rgba(244, 63, 94, 0.3)',
+          background: '#fee2e2',
+          border: '1px solid #fecaca',
           borderRadius: 'var(--radius-sm)',
-          color: '#fb7185',
+          color: '#991b1b',
           fontSize: '0.85rem',
           marginBottom: '1rem',
         }}>
@@ -167,7 +167,7 @@ export default function NewJobPage() {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '0.5rem 1rem',
-          background: '#0d121c',
+          background: '#252526',
           borderBottom: '1px solid var(--border-subtle)',
           fontSize: '0.8rem',
           color: 'var(--text-muted)',
@@ -200,7 +200,7 @@ export default function NewJobPage() {
 
         {/* Stdin Panel if toggled */}
         {showStdin && (
-          <div style={{ borderTop: '1px solid var(--border-subtle)', background: '#0a0d14', padding: '0.75rem 1rem' }}>
+          <div style={{ borderTop: '1px solid var(--border-subtle)', background: '#1e1e1e', padding: '0.75rem 1rem' }}>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.4rem', fontWeight: 600 }}>
               Standard Input (stdin)
             </div>

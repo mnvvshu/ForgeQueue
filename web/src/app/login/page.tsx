@@ -32,7 +32,7 @@ export default function LoginPage() {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 'calc(100vh - 100px)' }}>
       <div className="glass-panel" style={{ width: '100%', maxWidth: '420px', padding: '2.5rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'inline-flex', padding: '0.75rem', background: 'rgba(0, 210, 255, 0.1)', borderRadius: '12px', marginBottom: '1rem' }}>
+          <div style={{ display: 'inline-flex', padding: '0.75rem', background: '#dbeafe', borderRadius: '12px', marginBottom: '1rem' }}>
             <Terminal size={32} style={{ color: 'var(--accent-cyan)' }} />
           </div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem' }}>Sign In to ForgeQueue</h1>
@@ -45,10 +45,10 @@ export default function LoginPage() {
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1rem',
-            background: 'rgba(244, 63, 94, 0.1)',
-            border: '1px solid rgba(244, 63, 94, 0.3)',
+            background: '#fee2e2',
+            border: '1px solid #fecaca',
             borderRadius: 'var(--radius-sm)',
-            color: '#fb7185',
+            color: '#991b1b',
             fontSize: '0.85rem',
             marginBottom: '1.5rem',
           }}>

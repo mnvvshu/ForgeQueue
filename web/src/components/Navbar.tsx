@@ -4,18 +4,20 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Terminal, Cpu, Play, List, LayoutDashboard, LogIn, LogOut, UserPlus } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
+import { Terminal, Cpu, Play, List, LayoutDashboard, LogIn, LogOut, UserPlus, Sun, Moon } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const isActive = (path: string) => pathname === path;
 
   return (
     <nav className="navbar">
       <Link href="/dashboard" className="brand">
-        <Terminal size={24} style={{ color: 'var(--accent-cyan)' }} />
+        <Terminal size={22} style={{ color: 'var(--accent-blue)' }} />
         <span>ForgeQueue</span>
       </Link>
 
@@ -38,12 +40,16 @@ export default function Navbar() {
         </Link>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <button onClick={toggleTheme} className="theme-toggle" title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
+          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+        </button>
+
         {user ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}>
               <span style={{ color: 'var(--text-muted)' }}>Signed in as</span>
-              <span style={{ color: 'var(--accent-cyan)', fontWeight: 600 }}>{user.username}</span>
+              <span style={{ color: 'var(--accent-blue)', fontWeight: 600 }}>{user.username}</span>
             </div>
             <button
               onClick={logout}
