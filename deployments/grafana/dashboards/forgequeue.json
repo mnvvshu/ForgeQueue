@@ -1,0 +1,132 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Total Jobs Submitted",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "sum(forgequeue_jobs_submitted_total)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "id": 2,
+      "title": "Total Jobs Completed",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "sum(forgequeue_jobs_completed_total)",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
+      "id": 3,
+      "title": "Active Running Executions",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "forgequeue_active_executions",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
+      "id": 4,
+      "title": "Online Workers",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "forgequeue_workers_active",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "id": 5,
+      "title": "Job Submission & Completion Rates",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "rate(forgequeue_jobs_submitted_total[1m])",
+          "legendFormat": "Submitted ({{language}})",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(forgequeue_jobs_completed_total[1m])",
+          "legendFormat": "Completed ({{language}})",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(forgequeue_jobs_failed_total[1m])",
+          "legendFormat": "Failed ({{failure_category}})",
+          "refId": "C"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "id": 6,
+      "title": "Execution Latency (p50, p95)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(forgequeue_job_duration_seconds_bucket[1m])) by (le))",
+          "legendFormat": "p50 Latency (s)",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(forgequeue_job_duration_seconds_bucket[1m])) by (le))",
+          "legendFormat": "p95 Latency (s)",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 14 },
+      "id": 7,
+      "title": "HTTP API Request Rate & Status",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "sum(rate(forgequeue_http_requests_total[1m])) by (status)",
+          "legendFormat": "HTTP {{status}}",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["forgequeue", "production"],
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timezone": "browser",
+  "title": "ForgeQueue Distributed Engine",
+  "uid": "forgequeue-engine",
+  "version": 1
+}

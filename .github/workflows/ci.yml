@@ -1,0 +1,98 @@
+name: ForgeQueue CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-test:
+    name: Backend Tests & Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Verify Formatting
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "Go code is not formatted according to gofmt:"
+            gofmt -l .
+            exit 1
+          fi
+
+      - name: Go Vet
+        run: go vet ./...
+
+      - name: Run Unit & Integration Tests (with race detector)
+        run: go test -v -race ./...
+
+      - name: Build Binaries
+        run: |
+          mkdir -p bin
+          CGO_ENABLED=0 go build -o bin/forgequeue-api ./cmd/api
+          CGO_ENABLED=0 go build -o bin/forgequeue-worker ./cmd/worker
+
+  frontend-build:
+    name: Frontend Build & Typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: web/package.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js
+        run: npm run build
+
+  docker-build:
+    name: Docker Build Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build API Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: deployments/Dockerfile.api
+          push: false
+          tags: forgequeue-api:ci
+
+      - name: Build Worker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: deployments/Dockerfile.worker
+          push: false
+          tags: forgequeue-worker:ci
+
+      - name: Build Web Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: deployments/Dockerfile.web
+          push: false
+          tags: forgequeue-web:ci

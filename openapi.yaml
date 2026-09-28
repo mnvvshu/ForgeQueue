@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: ForgeQueue API
+  version: 1.0.0
+  description: Distributed Multi-Language Code Execution Platform API with Transactional Outbox and Real-Time SSE Log Streaming.
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, email, password]
+              properties:
+                username: { type: string, example: "developer" }
+                email: { type: string, example: "dev@example.com" }
+                password: { type: string, format: password, example: "SecurePassword123!" }
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Validation error
+        '409':
+          description: Username or email already exists
+
+  /auth/login:
+    post:
+      summary: Authenticate and obtain JWT token
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string, example: "developer" }
+                password: { type: string, format: password, example: "SecurePassword123!" }
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Invalid credentials
+
+  /auth/me:
+    get:
+      summary: Get current authenticated user profile
+      tags: [Auth]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Current user profile
+        '401':
+          description: Unauthorized
+
+  /runtimes:
+    get:
+      summary: List supported programming language runtimes
+      tags: [Discovery]
+      responses:
+        '200':
+          description: Array of runtime definitions
+
+  /workers:
+    get:
+      summary: List active execution workers and cluster capacity
+      tags: [Discovery]
+      responses:
+        '200':
+          description: Array of worker nodes and heartbeats
+
+  /jobs:
+    post:
+      summary: Submit a new code execution job
+      tags: [Jobs]
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          schema: { type: string }
+          description: Optional idempotency key scoped to the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [language, source_code]
+              properties:
+                language:
+                  type: string
+                  enum: [python, javascript, go, cpp, java]
+                  example: "python"
+                source_code:
+                  type: string
+                  example: "print('Hello ForgeQueue')"
+                stdin:
+                  type: string
+                  example: ""
+                limits:
+                  type: object
+                  properties:
+                    timeout_seconds: { type: integer, example: 10 }
+                    memory_limit_mb: { type: integer, example: 256 }
+      responses:
+        '201':
+          description: Job created and queued
+        '400':
+          description: Validation error
+
+    get:
+      summary: List execution jobs submitted by authenticated user
+      tags: [Jobs]
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: limit
+          schema: { type: integer, default: 20 }
+        - in: query
+          name: offset
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Paginated list of jobs
+
+  /jobs/{id}:
+    get:
+      summary: Get job details by ID
+      tags: [Jobs]
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Job details
+        '403':
+          description: Forbidden (cross-user access rejected)
+        '404':
+          description: Job not found
+
+  /jobs/{id}/attempts:
+    get:
+      summary: List execution attempts for a job
+      tags: [Jobs]
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Array of attempts
+
+  /jobs/{id}/cancel:
+    post:
+      summary: Cancel a queued or running job
+      tags: [Jobs]
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Job cancelled
+        '403':
+          description: Forbidden
+        '409':
+          description: Job already terminal
+
+  /jobs/{id}/events:
+    get:
+      summary: Server-Sent Events stream for live execution logs and status
+      tags: [Jobs]
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: token
+          schema: { type: string }
+          description: JWT token for EventSource browser compatibility
+      responses:
+        '200':
+          description: SSE event stream (text/event-stream)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
