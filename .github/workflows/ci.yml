@@ -17,16 +17,22 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.23'
           cache: true
 
       - name: Go Vet
         run: go vet ./...
+        env:
+          GOTOOLCHAIN: auto
 
       - name: Run Unit Tests
         run: go test -v -race -count=1 ./internal/... ./tests/...
+        env:
+          GOTOOLCHAIN: auto
 
       - name: Build Binaries
+        env:
+          GOTOOLCHAIN: auto
         run: |
           mkdir -p bin
           CGO_ENABLED=0 go build -o bin/forgequeue-api ./cmd/api
